@@ -17,3 +17,20 @@ polygon = PoolVector2Array( 0.139877, 9.98959, 9.98301, 0.146454, -0.0963593, -9
 
 [node name="BulletCooldown" type="Timer" parent="."]
 one_shot = true
+
+[node name="HUD" type="Control" parent="."]
+margin_left = -37.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Energy" type="ProgressBar" parent="HUD"]
+margin_left = -8.63149
+margin_top = -26.1921
+margin_right = 82.3685
+margin_bottom = -12.1921
+value = 100.0
+percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
