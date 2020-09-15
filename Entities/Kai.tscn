@@ -1,14 +1,19 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Entities/Kai.gd" type="Script" id=1]
+[ext_resource path="res://Entities/Projectile.tscn" type="PackedScene" id=2]
 
 [sub_resource type="CircleShape2D" id=1]
 
 [node name="Kai" type="KinematicBody2D"]
 script = ExtResource( 1 )
+weapon_class = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
 polygon = PoolVector2Array( 0.139877, 9.98959, 9.98301, 0.146454, -0.0963593, -9.77542, -10.0182, -0.0110359 )
+
+[node name="BulletCooldown" type="Timer" parent="."]
+one_shot = true
