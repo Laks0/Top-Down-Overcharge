@@ -1,8 +1,9 @@
 extends KinematicBody2D
 
 export var maxSpeed     : int   = 700
-export var acceleration : int   = 1000
-export var friction     : float = .35
+export var acceleration : int   = 1300
+export var stopForce    : float = .35
+export var friction     : float = .15
 
 var velocity      : Vector2
 var addedVelocity : Vector2 # Velocidad agregada que no se clampea, para usar solo en casos puntuales y no como movimiento
@@ -41,17 +42,17 @@ func _physics_process(delta):
 
 	# Detenerse y girar
 	if dirx != sign(velocity.x):
-		velocity.x = lerp(velocity.x, 0, friction)
+		velocity.x = lerp(velocity.x, 0, stopForce)
 	if diry != sign(velocity.y):
-		velocity.y = lerp(velocity.y, 0, friction)
+		velocity.y = lerp(velocity.y, 0, stopForce)
 
 	velocity.x = clamp(velocity.x, -maxSpeed, maxSpeed)
 	velocity.y = clamp(velocity.y, -maxSpeed, maxSpeed)
 
 	velocity = move_and_slide(velocity)
 
-	addedVelocity.x = lerp(addedVelocity.x, 0, .15)
-	addedVelocity.y = lerp(addedVelocity.y, 0, .15)
+	addedVelocity.x = lerp(addedVelocity.x, 0, friction)
+	addedVelocity.y = lerp(addedVelocity.y, 0, friction)
 
 	move_and_slide(addedVelocity)
 
