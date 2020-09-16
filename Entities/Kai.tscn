@@ -5,7 +5,9 @@
 
 [sub_resource type="CircleShape2D" id=1]
 
-[node name="Kai" type="KinematicBody2D"]
+[node name="Kai" type="KinematicBody2D" groups=[
+"Player",
+]]
 script = ExtResource( 1 )
 weapon_class = ExtResource( 2 )
 

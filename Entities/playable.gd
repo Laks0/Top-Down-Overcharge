@@ -4,7 +4,8 @@ export var maxSpeed     : int   = 700
 export var acceleration : int   = 1000
 export var friction     : float = .35
 
-var velocity : Vector2
+var velocity      : Vector2
+var addedVelocity : Vector2 # Velocidad agregada que no se clampea, para usar solo en casos puntuales y no como movimiento
 
 export var maxHealth : float = 100
 export var maxEnergy : float = 100
@@ -29,6 +30,7 @@ func _process(delta):
 	if Input.is_action_just_pressed("shoot") and $BulletCooldown.is_stopped():
 		shoot(weapon_class)
 
+func _physics_process(delta):
 	### MOVIMIENTO ###
 	# Definir direcciones
 	var dirx = int( Input.is_action_pressed("control_right") ) - int( Input.is_action_pressed("control_left") )
@@ -48,6 +50,10 @@ func _process(delta):
 
 	velocity = move_and_slide(velocity)
 
+	addedVelocity.x = lerp(addedVelocity.x, 0, .15)
+	addedVelocity.y = lerp(addedVelocity.y, 0, .15)
+
+	move_and_slide(addedVelocity)
 
 func shoot(weapon):
 	var bullet = weapon.instance()
@@ -58,8 +64,14 @@ func shoot(weapon):
 		bullet.position = position
 		bullet.direction = direction
 
-		velocity -= bullet.knockback * direction 
+		knock(bullet.knockback, -direction)
 		$BulletCooldown.wait_time = bullet.cooldown
 		$BulletCooldown.start()
 		energy -= bullet.energyCost
+	
+func knock(ammount, direction):
+	addedVelocity += direction * ammount
 
+func hurt(damage : float, knockback : int = 0, direction : Vector2 = Vector2.ZERO):
+	health -= damage
+	knock(knockback, direction)
